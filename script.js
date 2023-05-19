@@ -25,10 +25,11 @@ async function init() {
         labelContainer.appendChild(document.createElement("div"));
     }
 
-    isInited = true
+    isInited = true;
 }
 
 function clear_label_container() {
+    console.log('it works');
     maxPredictions = model.getTotalClasses();
     for (let i = 0; i <= maxPredictions; i++) { // and class labels
         labelContainer.childNodes[i].innerHTML = '';
@@ -56,24 +57,23 @@ async function init_webcam() {
         // append elements to the DOM
         document.getElementById("image-container").appendChild(image.canvas);
 
-        document.getElementById("webcam_button").innerHTML = "Stop Webcam"
+        document.getElementById("webcam_button").innerHTML = "Stop Webcam";
     } else {
-        isToggledWebcam = false
-        image.stop()
-        document.getElementById("image-container").innerHTML = ''
-        document.getElementById("webcam_button").innerHTML = "Start <i>with Webcam</i>"
-        clear_label_container() // Unfortunately, It's not working.
+        isToggledWebcam = false;
+        image.stop();
+        document.getElementById("image-container").innerHTML = '';
+        document.getElementById("webcam_button").innerHTML = "Start <i>with Webcam</i>";
+        clear_label_container(); // Unfortunately, It's not working.
     }
 }
 
 async function init_file() {
     if (!isInited) {
-        await init()
+        await init();
     }
 
-
-    document.getElementById('upload_file').innerHTML = '<input type="file" id="fileUpload" accept="image/*">\nPlease upload your file to predict.'
-    document.getElementById("image-container").innerHTML = '<img id="previewImg" width="200" heigth="200" alt="미리보기 이미지">'
+    document.getElementById('upload_file').innerHTML = '<input type="file" id="fileUpload" accept="image/*">\nPlease upload your file to predict.';
+    document.getElementById("image-container").innerHTML = '<img id="previewImg" width="200" heigth="200" alt="미리보기 이미지">';
 
     const fileInput = document.getElementById("fileUpload");
 
@@ -86,7 +86,7 @@ async function init_file() {
 
         fileReader.onload = function () {
             document.getElementById("previewImg").src = fileReader.result;
-            image = document.getElementById("previewImg")
+            image = document.getElementById("previewImg");
             predict()
         };
     };
@@ -119,7 +119,7 @@ async function predict() {
     } else if (prediction[1].className == "Cat" && prediction[1].probability.toFixed(2) == 1.00) {
         labelContainer.childNodes[0].innerHTML = "고양이는 식육목 고양이과에 속하는 포유류이다. 집고양이의 기원은 약 1만년 전 중동 지역에서 스스로 숲속을 나와 사람들이 모여사는 마을에 정착하여 길들여진 아프리카들고양이로 추측된다.";
     } else {
-        labelContainer.childNodes[0].innerHTML = '알 수 없다.'
+        labelContainer.childNodes[0].innerHTML = "알 수 없다.";
     }
 
     for (let i = 0; i < maxPredictions; i++) {
