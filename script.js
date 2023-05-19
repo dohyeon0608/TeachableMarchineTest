@@ -28,7 +28,7 @@ async function init() {
     isInited = true;
 }
 
-function clear_label_container() {
+async function clear_label_container() {
     console.log('it works');
     maxPredictions = model.getTotalClasses();
     for (let i = 0; i <= maxPredictions; i++) { // and class labels
@@ -63,7 +63,6 @@ async function init_webcam() {
         image.stop();
         document.getElementById("image-container").innerHTML = '';
         document.getElementById("webcam_button").innerHTML = "Start <i>with Webcam</i>";
-        clear_label_container(); // Unfortunately, It's not working.
     }
 }
 
@@ -98,15 +97,21 @@ async function init_file() {
 async function loop() {
     image.update(); // update the webcam frame
     await predict();
-    if (isToggledWebcam) {
-        window.requestAnimationFrame(loop);
-    }
+    predict().then(function () {
+        if (isToggledWebcam) {
+            window.requestAnimationFrame(loop);
+        } else {
+            clear_label_container();
+        }
+    })
+
 }
 
 // run the webcam image through the image model
 async function predict() {
     // predict can take in an image, video or canvas html element
     let prediction;
+
     if (image instanceof tmImage.Webcam) {
         prediction = await model.predict(image.canvas);
     } else {
