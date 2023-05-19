@@ -12,13 +12,14 @@ h1 {
 
 button {
     background-color: rgb(136, 174, 244);
-    width: 300px;
+    width: 40%;
     height: 50px;
     margin: 0 auto;
     font-size: 1.3em;
     border: 0;
     border-radius: 20px;
     transition: all 0.5s;
+    cursor: pointer;
 }
 
 button:hover {
